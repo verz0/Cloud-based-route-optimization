@@ -80,15 +80,3 @@ cloud-proj/
      --entry-point calculate_detailed_emissions
    ```
 
-## API Endpoints
-- `POST /api/routes` — Get optimized routes and basic emissions estimate
-- `POST /api/emissions-details` — Get detailed emissions breakdown (calls Cloud Function)
-
-## Security & Best Practices
-- **Do not commit files containing API keys or secrets.**
-- Use `.gitignore` to exclude sensitive files (e.g., `app.yaml`, `.env`).
-- Rotate any exposed API keys immediately in the Google Cloud Console.
-- Provide a `app.sample.yaml` or `.env.example` for reference, without real credentials.
-
-## License
-This project is for educational and demonstration purposes. Please review and update the license as needed for your use case. 
