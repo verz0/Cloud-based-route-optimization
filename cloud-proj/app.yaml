@@ -1,0 +1,16 @@
+runtime: python311
+
+env_variables:
+  MAPS_API_KEY: "AIzaSyAeAlC27KethNQBIkMNpx01vsz-6ALTes8"
+  EMISSIONS_FUNCTION_URL: "https://us-central1-astute-strategy-463309-f9.cloudfunctions.net/emissions-calculator"
+
+automatic_scaling:
+  min_instances: 0
+  max_instances: 10
+
+handlers:
+- url: /static
+  static_dir: static
+  
+- url: /.*
+  script: auto

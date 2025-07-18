@@ -1,0 +1,65 @@
+runtime: python311
+
+# Environment variables
+env_variables:
+  # Google Maps API
+  MAPS_API_KEY: "AIzaSyAeAlC27KethNQBIkMNpx01vsz-6ALTes8"
+  EMISSIONS_FUNCTION_URL: "https://us-central1-astute-strategy-463309-f9.cloudfunctions.net/emissions-calculator"
+  
+  # Flask secret key for session management
+  FLASK_SECRET_KEY: "your-secret-key-here-change-in-production"
+  
+  # Firebase Configuration
+  FIREBASE_API_KEY: "AIzaSyD-LBJEI0L_fI2qaLrzwXJHeKOA1v7wZ5o"
+  FIREBASE_AUTH_DOMAIN: "astute-strategy-463309-f9.firebaseapp.com"
+  FIREBASE_PROJECT_ID: "astute-strategy-463309-f9"
+  FIREBASE_STORAGE_BUCKET: "astute-strategy-463309-f9.appspot.com"
+  FIREBASE_MESSAGING_SENDER_ID: "860208201504"
+  FIREBASE_APP_ID: "1:860208201504:web:6bbb6b3cce3b9f97196e3e"
+  
+  # Firebase Admin SDK - Service account key (for local development)
+  # In production, use IAM roles instead of service account key file
+  GOOGLE_APPLICATION_CREDENTIALS: "/home/pirajeshmr/route-optimization/app/astute-strategy-463309-f9-fffb201ce66e.json"
+
+# App Engine settings
+automatic_scaling:
+  min_instances: 1
+  max_instances: 10
+  target_cpu_utilization: 0.6
+  target_throughput_utilization: 0.6
+
+# Resource settings
+resources:
+  cpu: 1
+  memory_gb: 0.5
+  disk_size_gb: 10
+
+# Handlers
+handlers:
+- url: /static
+  static_dir: static
+  secure: always
+  
+- url: /.*
+  script: auto
+  secure: always
+
+# Health check configuration
+health_check:
+  enable_health_check: True
+  check_interval_sec: 5
+  timeout_sec: 4
+  healthy_threshold: 2
+  unhealthy_threshold: 2
+  restart_threshold: 3
+
+# VPC Access (if needed)
+# vpc_access_connector:
+#   name: projects/PROJECT_ID/locations/REGION/connectors/CONNECTOR_NAME
+
+# Environment variables for local development
+# These will be overridden by the ones above in production
+# but are included here for local development reference
+# env_variables:
+#   FLASK_ENV: "development"
+#   DEBUG: "True"
