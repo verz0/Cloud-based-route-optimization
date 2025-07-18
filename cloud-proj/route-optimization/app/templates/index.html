@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Route Optimization System</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/style.css">
+    
+    <!-- Load Google Maps API with proper async loading -->
+    <script>
+        // Debug: Check if API key is available
+        console.log('API Key available:', '{{ api_key }}' ? 'Yes' : 'No');
+        
+        // Global callback function for Google Maps API
+        function initMapCallback() {
+            if (typeof initMap === 'function') {
+                initMap();
+            } else {
+                console.error('initMap function not found');
+            }
+        }
+        
+        // Handle API loading errors
+        window.gm_authFailure = function() {
+            console.error('Google Maps API authentication failed');
+            alert('Google Maps API authentication failed. Please check your API key.');
+        };
+    </script>
+    <script async defer 
+            src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}&libraries=places,geometry&loading=async&callback=initMapCallback">
+    </script>
+</head>
+<body>    <div class="container">
+        <h1>Route Optimization System</h1>
+        
+        <div class="control-panel">
+            <form id="route-form">
+                <div class="form-group">
+                    <label for="origin"><i class="fas fa-map-marker-alt"></i> Origin:</label>
+                    <input type="text" id="origin" name="origin" placeholder="Enter starting point" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="destination"><i class="fas fa-flag-checkered"></i> Destination:</label>
+                    <input type="text" id="destination" name="destination" placeholder="Enter destination" required>
+                </div>
+
+                <div class="waypoints-section">
+                    <div class="waypoints-header">
+                        <label><i class="fas fa-route"></i> Waypoints:</label>
+                        <button type="button" id="add-waypoint" class="small-button">
+                            <i class="fas fa-plus"></i> Add Stop
+                        </button>
+                    </div>
+                    <div id="waypoints-container">
+                        <!-- Waypoints will be added here dynamically -->
+                    </div>
+                    <div class="optimize-waypoints">
+                        <input type="checkbox" id="optimize-waypoints">
+                        <label for="optimize-waypoints">Optimize waypoint order for fastest route</label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="mode"><i class="fas fa-exchange-alt"></i> Travel Mode:</label>
+                    <select id="mode" name="mode">
+                        <option value="driving">Driving</option>
+                        <option value="walking">Walking</option>
+                        <option value="bicycling">Cycling</option>
+                        <option value="transit">Public Transport</option>
+                    </select>
+                </div>
+                <div class="form-group" id="vehicle-type-container">
+                    <label for="vehicle-type"><i class="fas fa-car"></i> Vehicle Type:</label>
+                    <select id="vehicle-type" name="vehicle-type">
+                        <option value="economy">Economy Car</option>
+                        <option value="midsize" selected>Midsize Car</option>
+                        <option value="suv">SUV</option>
+                        <option value="truck">Truck</option>
+                        <option value="hybrid">Hybrid</option>
+                        <option value="electric">Electric</option>
+                        <option value="motorcycle">Motorcycle</option>
+                    </select>
+                </div>
+                
+                <button type="submit"><i class="fas fa-search"></i> Find Routes</button>
+            </form>
+        </div>
+        
+        <div class="map-container">
+            <div id="map"></div>
+            <div class="loading">
+                <div class="loading-spinner"></div>
+                <p>Processing your request...</p>
+            </div>
+        </div>
+        
+        <div class="route-info">
+            <div id="route-details">
+                <h2><i class="fas fa-info-circle"></i> Route Details</h2>
+                <div id="route-list"></div>
+            </div>
+            
+            <div id="emissions-info">
+                <h2><i class="fas fa-leaf"></i> Environmental Impact</h2>
+                <div id="emissions-data"></div>
+                <button id="show-detailed-emissions" class="button" style="display: none;">
+                    <i class="fas fa-chart-bar"></i> Show Detailed Environmental Impact
+                </button>
+            </div>
+        </div>
+        <div id="detailed-emissions-container" style="display: none;" class="detailed-emissions-container">
+            <h2><i class="fas fa-clipboard-list"></i> Detailed Environmental Impact Report</h2>
+            <div id="detailed-emissions-content"></div>
+        </div>
+    </div>
+    
+    <script src="/static/js/script.js"></script>
+</body>
+</html>
